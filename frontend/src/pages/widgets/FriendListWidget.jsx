@@ -32,7 +32,7 @@ const FriendListWidget = ({ userId }) => {
       <div className="flex flex-col gap-6">
         {friends.map((friend) => (
           <Friend
-            key={friend._id}
+            key={friend._id} // Ensure friend._id is unique for each friend
             friendId={friend._id}
             name={`${friend.firstName} ${friend.lastName}`}
             subtitle={friend.occupation}
