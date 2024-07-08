@@ -27,7 +27,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const getUserPosts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/posts/${userId}/posts`,
+        `http://localhost:3001/posts/${userId}/posts`, // Ensure this matches the backend route
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },

@@ -58,56 +58,25 @@ const Navbar = () => {
           className="flex-grow bg-transparent focus:outline-none"
         />
         <button className="p-2 rounded-lg bg-gray-300 hover:bg-gray-400 focus:outline-none">
+          {/* Replace with your preferred burger menu SVG */}
           <svg
+            xmlns="http://www.w3.org/2000/svg"
             className="w-6 h-6 text-gray-600"
             viewBox="0 0 24 24"
-            fill="currentColor"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            {/* Search Icon SVG */}
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
         </button>
       </div>
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex gap-7 items-center">
-        {/* Dark Mode / Light Mode Toggle */}
-        <button
-          className="p-2 rounded-lg bg-transparent hover:bg-gray-200 focus:outline-none"
-          onClick={() => dispatch(setMode())}
-          aria-label="Toggle Dark Mode"
-        >
-          {/* Mode Icon SVG */}
-        </button>
-
-        {/* Other icons (Message, Notifications, Help) */}
-        <button className="p-2 rounded-lg bg-transparent hover:bg-gray-200 focus:outline-none">
-          <svg
-            className="w-6 h-6 text-gray-800"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            {/* Message Icon SVG */}
-          </svg>
-        </button>
-        <button className="p-2 rounded-lg bg-transparent hover:bg-gray-200 focus:outline-none">
-          <svg
-            className="w-6 h-6 text-gray-800"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            {/* Notifications Icon SVG */}
-          </svg>
-        </button>
-        <button className="p-2 rounded-lg bg-transparent hover:bg-gray-200 focus:outline-none">
-          <svg
-            className="w-6 h-6 text-gray-800"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            {/* Help Icon SVG */}
-          </svg>
-        </button>
-
         {/* User Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
@@ -116,13 +85,6 @@ const Navbar = () => {
             aria-expanded={isDropdownOpen}
           >
             {fullName}
-            <svg
-              className="w-4 h-4 ml-1 text-gray-800"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              {/* Dropdown Icon SVG */}
-            </svg>
           </button>
 
           {/* Dropdown Menu */}
@@ -147,12 +109,16 @@ const Navbar = () => {
         className="md:hidden p-2 rounded-lg bg-gray-200 hover:bg-gray-300 focus:outline-none"
         onClick={handleToggleMobileMenu}
       >
+        {/* Replace with your preferred burger menu SVG */}
         <svg
-          className="w-6 h-6 text-gray-800"
-          viewBox="0 0 24 24"
-          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          width="20"
+          height="20"
+          viewBox="0 0 50 50"
         >
-          {/* Menu Icon SVG */}
+          <path d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 Z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 Z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 Z"></path>
         </svg>
       </button>
 
@@ -171,6 +137,10 @@ const Navbar = () => {
                 fill="currentColor"
               >
                 {/* Close Icon SVG */}
+                <path
+                  fillRule="evenodd"
+                  d="M19.293 5.293l-14 14a1 1 0 1 1-1.414-1.414l14-14a1 1 0 1 1 1.414 1.414z"
+                />
               </svg>
             </button>
 
@@ -185,13 +155,6 @@ const Navbar = () => {
                 aria-expanded={isDropdownOpen}
               >
                 {fullName}
-                <svg
-                  className="w-4 h-4 ml-1 text-gray-800"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  {/* Dropdown Icon SVG */}
-                </svg>
               </button>
 
               {/* Dropdown Menu */}

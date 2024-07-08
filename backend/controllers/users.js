@@ -16,9 +16,13 @@ export const getUserFriends = async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
 
+    // Filter duplicates in user.friends array
+    const uniqueFriendIds = [...new Set(user.friends)];
+
     const friends = await Promise.all(
-      user.friends.map((id) => User.findById(id))
+      uniqueFriendIds.map((id) => User.findById(id))
     );
+
     const formattedFriends = friends.map(
       ({ _id, firstName, lastName, occupation, location, picturePath }) => {
         return { _id, firstName, lastName, occupation, location, picturePath };
@@ -47,9 +51,13 @@ export const addRemoveFriend = async (req, res) => {
     await user.save();
     await friend.save();
 
+    // Filter duplicates in user.friends array
+    const uniqueFriendIds = [...new Set(user.friends)];
+
     const friends = await Promise.all(
-      user.friends.map((id) => User.findById(id))
+      uniqueFriendIds.map((id) => User.findById(id))
     );
+
     const formattedFriends = friends.map(
       ({ _id, firstName, lastName, occupation, location, picturePath }) => {
         return { _id, firstName, lastName, occupation, location, picturePath };

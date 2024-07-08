@@ -6,7 +6,7 @@ const router = express.Router();
 
 /* READ */
 router.get("/", verifyToken, getFeedPosts);
-router.get("/:userId/posts", verifyToken, getUserPosts);
+router.get("/:userId/posts", verifyToken, getUserPosts); // This should match the request from the frontend
 
 /* UPDATE */
 router.patch("/:id/like", verifyToken, likePost);
