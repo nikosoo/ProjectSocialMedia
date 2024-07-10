@@ -44,7 +44,6 @@ const ProfilePage = () => {
           <FriendListWidget userId={userId} />
         </div>
         <div className="lg:w-2/5 mt-8 lg:mt-0">
-          <MyPostWidget picturePath={user.picturePath} />
           <div className="my-8" />
           <PostsWidget userId={userId} isProfile />
         </div>

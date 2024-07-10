@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "../../state";
 import Friend from "../../components/Friend";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 const PostWidget = ({
   postId,
@@ -55,35 +56,9 @@ const PostWidget = ({
         <div className="flex items-center space-x-2">
           <button onClick={patchLike} className="focus:outline-none">
             {isLiked ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-blue-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
+              <AiFillHeart color="#FF0000" size={24} />
             ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
+              <AiOutlineHeart size={24} />
             )}
           </button>
           <span className="text-gray-700">{likeCount}</span>

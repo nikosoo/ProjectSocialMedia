@@ -53,11 +53,12 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         {isFriend ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-blue-500"
+            className="h-6 w-6 text-gray-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
+            {/* New SVG path for "not friend" icon */}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -73,11 +74,12 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
+            {/* New SVG path for "plus" icon */}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M17 13v4m0 0v4m0-4h4m-4 0H3m0 0a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v6h0a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v0H3v-6a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v6"
+              d="M12 6v12m-6-6h12"
             />
           </svg>
         )}

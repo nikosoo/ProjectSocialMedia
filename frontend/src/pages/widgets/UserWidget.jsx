@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import UserImage from "../../components/UserImage"; // Adjust path as necessary
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import { FiArrowRight, FiMapPin, FiBriefcase } from "react-icons/fi"; // Import icons from react-icons
 
 const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
@@ -43,7 +44,6 @@ const UserWidget = ({ userId, picturePath }) => {
   } = user;
 
   const navigateToProfile = () => {
-    // Navigate to profile page using navigate function
     navigate(`/profile/${userId}`);
   };
 
@@ -63,19 +63,7 @@ const UserWidget = ({ userId, picturePath }) => {
             <p className="text-gray-600">{friends.length} friends</p>
           </div>
         </div>
-        <svg
-          className="h-6 w-6 text-gray-600"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M17 8l4 4m0 0l-4 4m4-4H3"
-          />
-        </svg>
+        <FiArrowRight className="h-6 w-6 text-gray-600" />
       </div>
 
       <hr className="my-4" />
@@ -83,35 +71,11 @@ const UserWidget = ({ userId, picturePath }) => {
       {/* SECOND ROW */}
       <div className="py-4">
         <div className="flex items-center gap-4 mb-2">
-          <svg
-            className="h-6 w-6 text-gray-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
-          </svg>
+          <FiMapPin className="h-6 w-6 text-gray-600" />
           <p className="text-gray-600">{location}</p>
         </div>
         <div className="flex items-center gap-4">
-          <svg
-            className="h-6 w-6 text-gray-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M3 6h18M3 10h18M3 14h18M3 18h18"
-            />
-          </svg>
+          <FiBriefcase className="h-6 w-6 text-gray-600" />
           <p className="text-gray-600">{occupation}</p>
         </div>
       </div>
@@ -127,91 +91,6 @@ const UserWidget = ({ userId, picturePath }) => {
         <div className="flex justify-between">
           <p className="text-gray-600">Impressions of your post</p>
           <p className="text-gray-900 font-medium">{impressions}</p>
-        </div>
-      </div>
-
-      <hr className="my-4" />
-
-      {/* FOURTH ROW */}
-      <div className="py-4">
-        <p className="text-gray-900 font-medium mb-4">Social Profiles</p>
-
-        <div className="flex justify-between items-center gap-4 mb-2">
-          <div className="flex items-center gap-4">
-            <img
-              className="h-6 w-6"
-              src="../assets/twitter.png"
-              alt="twitter"
-            />
-            <div>
-              <p className="text-gray-900 font-medium">Twitter</p>
-              <p className="text-gray-600">Social Network</p>
-            </div>
-          </div>
-          <svg
-            className="h-6 w-6 text-gray-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </div>
-
-        <div className="flex justify-between items-center gap-4">
-          <div className="flex items-center gap-4">
-            <img
-              className="h-6 w-6"
-              src="../assets/linkedin.png"
-              alt="linkedin"
-            />
-            <div>
-              <p className="text-gray-900 font-medium">LinkedIn</p>
-              <p className="text-gray-600">Network Platform</p>
-            </div>
-          </div>
-          <svg
-            className="h-6 w-6 text-gray-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
         </div>
       </div>
     </div>
