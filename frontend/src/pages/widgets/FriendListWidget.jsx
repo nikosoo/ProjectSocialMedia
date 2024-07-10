@@ -1,9 +1,9 @@
-import Friend from "../../components/Friend";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "../../state";
+import Friend from "../../components/Friend";
 
-const FriendListWidget = ({ userId }) => {
+const FriendListWidget = ({ userId, isProfilePage }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const friends = useSelector((state) => state.user.friends);
@@ -32,11 +32,12 @@ const FriendListWidget = ({ userId }) => {
       <div className="flex flex-col gap-6">
         {friends.map((friend) => (
           <Friend
-            key={friend._id} // Ensure friend._id is unique for each friend
+            key={friend._id}
             friendId={friend._id}
             name={`${friend.firstName} ${friend.lastName}`}
             subtitle={friend.occupation}
             userPicturePath={friend.picturePath}
+            showButton={!isProfilePage} // Pass showButton prop to determine visibility
           />
         ))}
       </div>

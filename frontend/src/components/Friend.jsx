@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { setFriends } from "../state";
 import UserImage from "./UserImage";
 
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({ friendId, name, subtitle, userPicturePath, showButton }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id, friends } = useSelector((state) => state.user);
@@ -44,46 +44,46 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           <p className="text-sm text-gray-500">{subtitle}</p>
         </div>
       </div>
-      <button
-        onClick={patchFriend}
-        className={`p-2 rounded-full ${
-          isFriend ? "bg-blue-100" : "bg-gray-100"
-        }`}
-      >
-        {isFriend ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-gray-500"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            {/* New SVG path for "not friend" icon */}
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-gray-500"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            {/* New SVG path for "plus" icon */}
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 6v12m-6-6h12"
-            />
-          </svg>
-        )}
-      </button>
+      {showButton && (
+        <button
+          onClick={patchFriend}
+          className={`p-2 rounded-full ${
+            isFriend ? "bg-blue-100" : "bg-gray-100"
+          }`}
+        >
+          {isFriend ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 6v12m-6-6h12"
+              />
+            </svg>
+          )}
+        </button>
+      )}
     </div>
   );
 };

@@ -41,7 +41,8 @@ const ProfilePage = () => {
         <div className="lg:w-1/4">
           <UserWidget userId={userId} picturePath={user.picturePath} />
           <div className="my-8" />
-          <FriendListWidget userId={userId} />
+          <FriendListWidget userId={userId} isProfilePage={true} />{" "}
+          {/* Pass isProfilePage prop */}
         </div>
         <div className="lg:w-2/5 mt-8 lg:mt-0">
           <div className="my-8" />

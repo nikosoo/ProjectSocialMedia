@@ -14,6 +14,7 @@ const PostWidget = ({
   userPicturePath,
   likes,
   comments,
+  isProfile,
 }) => {
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const PostWidget = ({
         name={name}
         subtitle={location}
         userPicturePath={userPicturePath}
+        showButton={!isProfile} // Show button if not in profile context
       />
       <p className="text-gray-800 mt-4">{description}</p>
       {picturePath && (

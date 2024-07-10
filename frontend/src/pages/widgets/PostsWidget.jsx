@@ -27,7 +27,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const getUserPosts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/posts/${userId}/posts`, // Ensure this matches the backend route
+        `http://localhost:3001/posts/${userId}/posts`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -81,6 +81,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
               userPicturePath={userPicturePath}
               likes={likes}
               comments={comments}
+              isProfile={isProfile} // Pass isProfile prop to PostWidget
             />
           </div>
         )

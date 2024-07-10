@@ -54,7 +54,8 @@ const HomePage = () => {
                 <PostsWidget userId={_id} />
               </div>
               <div className="border-t border-gray-200 px-6 py-4">
-                <FriendListWidget userId={_id} />
+                <FriendListWidget userId={_id} isProfilePage={false} />{" "}
+                {/* Pass isProfilePage prop */}
               </div>
             </div>
           </div>
