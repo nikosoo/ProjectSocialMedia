@@ -13,9 +13,10 @@ const HomePage = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* User Profile */}
-          <div className="md:col-span-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* User Profile and Friend List */}
+          <div className="md:col-span-1 space-y-4">
+            {/* User Profile */}
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <div className="px-6 py-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -26,10 +27,23 @@ const HomePage = () => {
                 <UserWidget userId={_id} picturePath={picturePath} />
               </div>
             </div>
+
+            {/* Friend List */}
+            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="px-6 py-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Friends
+                </h3>
+              </div>
+              <div className="border-t border-gray-200 px-6 py-4">
+                <FriendListWidget userId={_id} isProfilePage={false} />
+              </div>
+            </div>
           </div>
 
-          {/* My Posts */}
-          <div className="md:col-span-1">
+          {/* My Posts and Posts */}
+          <div className="md:col-span-2 space-y-4">
+            {/* My Posts */}
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <div className="px-6 py-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -40,10 +54,8 @@ const HomePage = () => {
                 <MyPostWidget picturePath={picturePath} />
               </div>
             </div>
-          </div>
 
-          {/* Posts and Friends */}
-          <div className="md:col-span-2">
+            {/* Posts */}
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <div className="px-6 py-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -52,10 +64,6 @@ const HomePage = () => {
               </div>
               <div className="border-t border-gray-200 px-6 py-4">
                 <PostsWidget userId={_id} />
-              </div>
-              <div className="border-t border-gray-200 px-6 py-4">
-                <FriendListWidget userId={_id} isProfilePage={false} />{" "}
-                {/* Pass isProfilePage prop */}
               </div>
             </div>
           </div>

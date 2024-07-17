@@ -1,15 +1,20 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../../state";
 import { useNavigate, useLocation } from "react-router-dom";
+import Friend from "../../components/Friend";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const user = useSelector((state) => state.user);
   const fullName = user ? `${user.firstName} ${user.lastName}` : "";
+  const token = useSelector((state) => state.token);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -30,8 +35,39 @@ const Navbar = () => {
     setIsDropdownOpen(false);
   }, [location]);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/users", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        const data = await response.json();
+        setAllUsers(data);
+      } catch (error) {
+        console.error("Error fetching users: ", error);
+      }
+    };
+
+    fetchUsers();
+  }, [token]);
+
+  const handleSearchInputChange = (event) => {
+    const inputValue = event.target.value;
+    setSearchInput(inputValue);
+
+    const results = allUsers.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(inputValue.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(inputValue.toLowerCase())
+    );
+
+    setSearchResults(results);
   };
 
   return (
@@ -45,35 +81,37 @@ const Navbar = () => {
       </h1>
 
       {/* Search Input */}
-      <div className="flex bg-gray-200 rounded-lg gap-7 px-4 py-1.5 w-full md:w-auto sm:w-auto max-sm:w-[35%]">
+      <div className="relative">
         <input
           type="text"
           placeholder="Search..."
-          className="flex-grow bg-transparent focus:outline-none max-sm:w-[35%]"
+          className="bg-gray-200 rounded-lg py-2 px-4 w-56 sm:w-64 focus:outline-none"
+          value={searchInput}
+          onChange={handleSearchInputChange}
         />
-        <button className="p-2 rounded-lg bg-gray-300 hover:bg-gray-400 focus:outline-none">
-          {/* Replace with your preferred search icon SVG */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6 text-gray-600"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-        </button>
+
+        {/* Search Results Prompt */}
+        {searchInput && searchResults.length > 0 && (
+          <div className="absolute left-0 mt-2 w-56 sm:w-64 bg-white rounded-lg shadow-lg z-10">
+            {searchResults.map((result) => (
+              <Friend
+                key={result._id}
+                friendId={result._id}
+                name={`${result.firstName} ${result.lastName}`}
+                subtitle={result.email} // Adjust as per your data structure
+                userPicturePath={result.picturePath} // Adjust as per your data structure
+                showButton={result._id !== user._id} // Don't show button for self
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* User Info and Logout Dropdown */}
       <div className="relative" ref={dropdownRef}>
         <button
           className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 focus:outline-none"
-          onClick={toggleDropdown}
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           aria-expanded={isDropdownOpen}
         >
           {fullName}

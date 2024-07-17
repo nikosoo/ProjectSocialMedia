@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { setFriends } from "../state";
 import UserImage from "./UserImage";
 
-const Friend = ({ friendId, name, subtitle, userPicturePath, showButton }) => {
+const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id, friends } = useSelector((state) => state.user);
@@ -13,6 +13,12 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, showButton }) => {
     Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
 
   const patchFriend = async () => {
+    // Prevent adding/removing self as friend
+    if (friendId === _id) {
+      console.log("Cannot add/remove yourself as a friend.");
+      return; // Exit early if trying to add/remove self
+    }
+
     const response = await fetch(
       `http://localhost:3001/users/${_id}/${friendId}`,
       {
@@ -27,9 +33,11 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, showButton }) => {
     dispatch(setFriends({ friends: data }));
   };
 
+  const showButton = friendId !== _id;
+
   return (
-    <div className="flex justify-between items-center">
-      <div className="flex items-center gap-4">
+    <div className="flex justify-between items-center mb-2">
+      <div className="flex items-center gap-2">
         <UserImage image={userPicturePath} size="60" />
         <div
           onClick={() => {
@@ -38,10 +46,10 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, showButton }) => {
           }}
           className="cursor-pointer"
         >
-          <p className="text-lg font-medium text-gray-800 hover:text-blue-500">
+          <p className="text-lg font-medium text-gray-800 hover:text-blue-500 m-0">
             {name}
           </p>
-          <p className="text-sm text-gray-500">{subtitle}</p>
+          <p className="text-sm text-gray-500 m-0">{subtitle}</p>
         </div>
       </div>
       {showButton && (

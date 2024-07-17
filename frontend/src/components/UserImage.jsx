@@ -1,6 +1,6 @@
-const UserImage = ({ image, size = "60px" }) => {
+const UserImage = ({ image, size }) => {
   return (
-    <div className={`w-${size} h-${size}`}>
+    <div>
       <img
         className="object-cover rounded-full"
         width={size}

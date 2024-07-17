@@ -70,7 +70,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           likes,
           comments,
         }) => (
-          <div key={_id} className="p-4 border border-gray-200 rounded-md">
+          <div key={_id}>
             <PostWidget
               postId={_id}
               postUserId={userId}
