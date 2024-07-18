@@ -1,6 +1,8 @@
+// components/PostWidget.jsx
+
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../../state";
+import { setPost, removePost } from "../../state";
 import Friend from "../../components/Friend";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
@@ -17,9 +19,10 @@ const PostWidget = ({
   isProfile,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [newComment, setNewComment] = useState("");
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const loggedInUserId = useSelector((state) => state.user._id);
+  const loggedInUserId = useSelector((state) => state.user?._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
 
@@ -36,6 +39,62 @@ const PostWidget = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
+  const handleCommentSubmit = async () => {
+    const response = await fetch(
+      `http://localhost:3001/posts/${postId}/comment`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId, comment: newComment }),
+      }
+    );
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
+    setNewComment("");
+  };
+
+  const handleCommentDelete = async (userId, comment) => {
+    const response = await fetch(
+      `http://localhost:3001/posts/${postId}/comment`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, comment }),
+      }
+    );
+
+    if (response.ok) {
+      const updatedPost = await response.json();
+      dispatch(setPost({ post: updatedPost }));
+      console.log("Comment deleted successfully");
+    } else {
+      console.error("Failed to delete comment");
+    }
+  };
+
+  const handleDelete = async () => {
+    const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      dispatch(removePost({ postId }));
+      console.log("Post deleted successfully");
+    } else {
+      console.error("Failed to delete post");
+    }
+  };
+
   return (
     <div className="m-8 border border-gray-200 rounded-md p-4">
       <Friend
@@ -43,7 +102,7 @@ const PostWidget = ({
         name={name}
         subtitle={location}
         userPicturePath={userPicturePath}
-        showButton={!isProfile} // Show button if not in profile context
+        showButton={!isProfile}
       />
       <p className="text-gray-800 mt-4">{description}</p>
       {picturePath && (
@@ -85,16 +144,57 @@ const PostWidget = ({
           </svg>
           <span className="text-gray-700">{comments.length}</span>
         </button>
+        {loggedInUserId === postUserId && (
+          <button
+            onClick={handleDelete}
+            className="ml-2 p-2 bg-red-500 text-white rounded-lg"
+          >
+            Delete
+          </button>
+        )}
       </div>
 
       {isComments && (
         <div className="mt-2">
           {comments.map((comment, i) => (
-            <div key={`${name}-${i}`} className="flex items-center space-x-2">
+            <div
+              key={`${comment.userId}-${i}`}
+              className="flex items-center space-x-2"
+            >
               <div className="w-6 h-6 rounded-full bg-gray-200"></div>
-              <p className="text-gray-700">{comment}</p>
+              <p className="text-gray-700">
+                <strong>
+                  {comment.firstName} {comment.lastName}:
+                </strong>{" "}
+                {comment.comment}
+              </p>
+              {comment.userId === loggedInUserId && (
+                <button
+                  onClick={() =>
+                    handleCommentDelete(comment.userId, comment.comment)
+                  }
+                  className="ml-2 p-1 text-red-500"
+                >
+                  Delete
+                </button>
+              )}
             </div>
           ))}
+          <div className="flex items-center mt-4">
+            <input
+              type="text"
+              className="flex-grow p-2 border border-gray-300 rounded-lg"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a comment..."
+            />
+            <button
+              onClick={handleCommentSubmit}
+              className="ml-2 p-2 bg-blue-500 text-white rounded-lg"
+            >
+              Submit
+            </button>
+          </div>
         </div>
       )}
     </div>
