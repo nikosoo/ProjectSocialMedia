@@ -9,20 +9,24 @@ const FriendListWidget = ({ userId, isProfilePage }) => {
   const friends = useSelector((state) => state.user.friends);
 
   const getFriends = async () => {
-    const response = await fetch(
-      `http://localhost:3001/users/${userId}/friends`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    dispatch(setFriends({ friends: data }));
+    try {
+      const response = await fetch(
+        `http://localhost:3001/users/${userId}/friends`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await response.json();
+      dispatch(setFriends({ friends: data }));
+    } catch (error) {
+      console.error("Error fetching friends:", error);
+    }
   };
 
   useEffect(() => {
     getFriends();
-  }, []);
+  }, [userId, token, dispatch]);
 
   return (
     <div className="p-4 border border-gray-200 rounded-md shadow-md">
@@ -37,7 +41,7 @@ const FriendListWidget = ({ userId, isProfilePage }) => {
             name={`${friend.firstName} ${friend.lastName}`}
             subtitle={friend.occupation}
             userPicturePath={friend.picturePath}
-            showButton={!isProfilePage} // Pass showButton prop to determine visibility
+            showButton={!isProfilePage} // Pass showButton prop based on isProfilePage
           />
         ))}
       </div>

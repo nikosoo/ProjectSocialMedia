@@ -1,21 +1,16 @@
-// state/index.js
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  mode: "light",
   user: null,
   token: null,
   posts: [],
+  userNotifications: {}, // Track notifications for each user
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setMode: (state) => {
-      state.mode = state.mode === "light" ? "dark" : "light";
-    },
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
@@ -28,7 +23,7 @@ export const authSlice = createSlice({
       if (state.user) {
         state.user.friends = action.payload.friends;
       } else {
-        console.error("user friends non-existent :(");
+        console.error("User friends non-existent :(");
       }
     },
     setPosts: (state, action) => {
@@ -46,16 +41,37 @@ export const authSlice = createSlice({
         (post) => post._id !== action.payload.postId
       );
     },
+    setNotifications: (state, action) => {
+      const { userId, notifications } = action.payload;
+      state.userNotifications[userId] = notifications;
+    },
+    addNotification: (state, action) => {
+      const { userId, notification } = action.payload;
+      if (!state.userNotifications[userId]) {
+        state.userNotifications[userId] = [];
+      }
+      state.userNotifications[userId].push(notification);
+    },
+    removeNotification: (state, action) => {
+      const { userId, notificationId } = action.payload;
+      if (state.userNotifications[userId]) {
+        state.userNotifications[userId] = state.userNotifications[
+          userId
+        ].filter((notification) => notification.id !== notificationId);
+      }
+    },
   },
 });
 
 export const {
-  setMode,
   setLogin,
   setLogout,
   setFriends,
   setPosts,
   setPost,
   removePost,
+  setNotifications,
+  addNotification,
+  removeNotification,
 } = authSlice.actions;
 export default authSlice.reducer;

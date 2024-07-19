@@ -1,8 +1,6 @@
-// components/PostWidget.jsx
-
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost, removePost } from "../../state";
+import { setPost, removePost, addNotification } from "../../state";
 import Friend from "../../components/Friend";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
@@ -23,6 +21,9 @@ const PostWidget = ({
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user?._id);
+  const loggedInUserName = `${useSelector(
+    (state) => state.user?.firstName
+  )} ${useSelector((state) => state.user?.lastName)}`;
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
 
@@ -37,6 +38,19 @@ const PostWidget = ({
     });
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
+
+    if (postUserId !== loggedInUserId) {
+      dispatch(
+        addNotification({
+          userId: postUserId,
+          notification: {
+            id: `${postId}-like-${loggedInUserId}`,
+            message: `${loggedInUserName} liked your post!`,
+            userName: loggedInUserName,
+          },
+        })
+      );
+    }
   };
 
   const handleCommentSubmit = async () => {
@@ -54,8 +68,20 @@ const PostWidget = ({
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
     setNewComment("");
-  };
 
+    if (postUserId !== loggedInUserId) {
+      dispatch(
+        addNotification({
+          userId: postUserId,
+          notification: {
+            id: `${postId}-comment-${loggedInUserId}`,
+            message: `${loggedInUserName} commented on your post!`,
+            userName: loggedInUserName,
+          },
+        })
+      );
+    }
+  };
   const handleCommentDelete = async (userId, comment) => {
     const response = await fetch(
       `http://localhost:3001/posts/${postId}/comment`,
@@ -173,26 +199,26 @@ const PostWidget = ({
                   onClick={() =>
                     handleCommentDelete(comment.userId, comment.comment)
                   }
-                  className="ml-2 p-1 text-red-500"
+                  className="ml-2 p-2 bg-red-500 text-white rounded-lg"
                 >
                   Delete
                 </button>
               )}
             </div>
           ))}
-          <div className="flex items-center mt-4">
+          <div className="mt-2 flex items-center space-x-2">
             <input
               type="text"
-              className="flex-grow p-2 border border-gray-300 rounded-lg"
+              className="border border-gray-300 rounded-lg p-2 flex-grow"
+              placeholder="Write a comment..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Add a comment..."
             />
             <button
               onClick={handleCommentSubmit}
-              className="ml-2 p-2 bg-blue-500 text-white rounded-lg"
+              className="bg-blue-500 text-white p-2 rounded-lg"
             >
-              Submit
+              Post
             </button>
           </div>
         </div>

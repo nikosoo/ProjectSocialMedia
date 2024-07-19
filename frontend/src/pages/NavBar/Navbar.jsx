@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogout } from "../../state";
+import { setLogout, removeNotification } from "../../state";
 import { useNavigate, useLocation } from "react-router-dom";
 import Friend from "../../components/Friend";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
@@ -15,12 +16,16 @@ const Navbar = () => {
   const user = useSelector((state) => state.user);
   const fullName = user ? `${user.firstName} ${user.lastName}` : "";
   const token = useSelector((state) => state.token);
+  const notifications = useSelector(
+    (state) => state.userNotifications[user?._id] || []
+  );
   const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
+        setIsNotificationOpen(false);
       }
     };
 
@@ -33,6 +38,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setIsDropdownOpen(false);
+    setIsNotificationOpen(false);
   }, [location]);
 
   useEffect(() => {
@@ -70,6 +76,10 @@ const Navbar = () => {
     setSearchResults(results);
   };
 
+  const handleRemoveNotification = (id) => {
+    dispatch(removeNotification({ userId: user._id, notificationId: id }));
+  };
+
   return (
     <nav className="bg-gray-100 px-6 py-4 flex justify-between items-center">
       {/* Logo */}
@@ -98,17 +108,53 @@ const Navbar = () => {
                 key={result._id}
                 friendId={result._id}
                 name={`${result.firstName} ${result.lastName}`}
-                subtitle={result.email} // Adjust as per your data structure
-                userPicturePath={result.picturePath} // Adjust as per your data structure
-                showButton={result._id !== user._id} // Don't show button for self
+                subtitle={result.email}
+                userPicturePath={result.picturePath}
+                showButton={result._id !== user._id}
               />
             ))}
           </div>
         )}
       </div>
 
-      {/* User Info and Logout Dropdown */}
-      <div className="relative" ref={dropdownRef}>
+      {/* User Info, Notification and Logout Dropdown */}
+      <div className="relative flex items-center" ref={dropdownRef}>
+        {/* Notification Button */}
+        <button
+          className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 focus:outline-none mr-4"
+          onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+          aria-expanded={isNotificationOpen}
+        >
+          Notifications ({notifications.length})
+        </button>
+
+        {/* Notifications Dropdown */}
+        {isNotificationOpen && (
+          <div className="absolute right-0 mt-2 py-2 w-80 bg-white rounded-lg shadow-lg z-10">
+            {notifications.length === 0 ? (
+              <p className="px-4 py-2 text-gray-700">No new notifications</p>
+            ) : (
+              notifications.map((notification) => (
+                <div
+                  key={notification.id}
+                  className="flex justify-between items-center px-4 py-2 hover:bg-gray-100"
+                >
+                  <p>
+                    {notification.message} {/* Only include message */}
+                  </p>
+                  <button
+                    onClick={() => handleRemoveNotification(notification.id)}
+                    className="text-red-500"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* User Info Dropdown */}
         <button
           className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 focus:outline-none"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}

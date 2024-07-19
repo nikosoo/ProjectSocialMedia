@@ -3,47 +3,49 @@ import { useNavigate } from "react-router-dom";
 import { setFriends } from "../state";
 import UserImage from "./UserImage";
 
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({ friendId, name, subtitle, userPicturePath, showButton }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id, friends } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
 
+  // Check if the current user is trying to add/remove themselves
+  const isSelf = friendId === _id;
+
+  // Check if the friend is already in the list
   const isFriend =
     Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
 
   const patchFriend = async () => {
-    // Prevent adding/removing self as friend
-    if (friendId === _id) {
+    if (isSelf) {
       console.log("Cannot add/remove yourself as a friend.");
       return; // Exit early if trying to add/remove self
     }
 
-    const response = await fetch(
-      `http://localhost:3001/users/${_id}/${friendId}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await response.json();
-    dispatch(setFriends({ friends: data }));
+    try {
+      const response = await fetch(
+        `http://localhost:3001/users/${_id}/${friendId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      dispatch(setFriends({ friends: data }));
+    } catch (error) {
+      console.error("Error updating friend status:", error);
+    }
   };
-
-  const showButton = friendId !== _id;
 
   return (
     <div className="flex justify-between items-center mb-2">
       <div className="flex items-center gap-2">
         <UserImage image={userPicturePath} size="60" />
         <div
-          onClick={() => {
-            navigate(`/profile/${friendId}`);
-            navigate(0);
-          }}
+          onClick={() => navigate(`/profile/${friendId}`)}
           className="cursor-pointer"
         >
           <p className="text-lg font-medium text-gray-800 hover:text-blue-500 m-0">
@@ -52,7 +54,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           <p className="text-sm text-gray-500 m-0">{subtitle}</p>
         </div>
       </div>
-      {showButton && (
+      {showButton && !isSelf && (
         <button
           onClick={patchFriend}
           className={`p-2 rounded-full ${
