@@ -28,20 +28,24 @@ const FriendListWidget = ({ userId, isProfilePage }) => {
     getFriends();
   }, [userId, token, dispatch]);
 
+  if (!friends || friends.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="p-4 border border-gray-200 rounded-md shadow-md">
       <h2 className="text-neutral-dark text-xl font-medium mb-6">
         Friend List
       </h2>
       <div className="flex flex-col gap-6">
-        {friends.map((friend) => (
+        {friends.map((friend, index) => (
           <Friend
-            key={friend._id}
+            key={friend._id || index} // Use index as a fallback key
             friendId={friend._id}
             name={`${friend.firstName} ${friend.lastName}`}
             subtitle={friend.occupation}
             userPicturePath={friend.picturePath}
-            showButton={!isProfilePage} // Pass showButton prop based on isProfilePage
+            showButton={!isProfilePage}
           />
         ))}
       </div>

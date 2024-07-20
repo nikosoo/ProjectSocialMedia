@@ -1,3 +1,4 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFriends } from "../state";
@@ -9,17 +10,14 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, showButton }) => {
   const { _id, friends } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
 
-  // Check if the current user is trying to add/remove themselves
   const isSelf = friendId === _id;
-
-  // Check if the friend is already in the list
   const isFriend =
     Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
 
   const patchFriend = async () => {
     if (isSelf) {
       console.log("Cannot add/remove yourself as a friend.");
-      return; // Exit early if trying to add/remove self
+      return;
     }
 
     try {
