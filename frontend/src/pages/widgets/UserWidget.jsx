@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import UserImage from "../../components/UserImage"; // Adjust path as necessary
-import { useNavigate } from "react-router-dom";
 import { FiArrowRight, FiMapPin, FiBriefcase } from "react-icons/fi"; // Import icons from react-icons
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const UserWidget = ({ userId, picturePath }) => {
+const UserWidget = ({ userId }) => {
   const [user, setUser] = useState(null);
   const token = useSelector((state) => state.token);
   const navigate = useNavigate(); // Initialize useNavigate
@@ -26,11 +26,13 @@ const UserWidget = ({ userId, picturePath }) => {
   };
 
   useEffect(() => {
-    getUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (userId) {
+      getUser();
+    }
+  }, [userId]);
 
   if (!user) {
-    return null;
+    return <p>Loading...</p>;
   }
 
   const {
@@ -41,10 +43,11 @@ const UserWidget = ({ userId, picturePath }) => {
     viewedProfile,
     impressions,
     friends,
+    picturePath,
   } = user;
 
-  const navigateToProfile = () => {
-    navigate(`/profile/${userId}`);
+  const handleProfileNavigation = () => {
+    navigate(`/profile/${userId}`); // Navigate to the user's profile
   };
 
   return (
@@ -52,7 +55,7 @@ const UserWidget = ({ userId, picturePath }) => {
       {/* FIRST ROW */}
       <div
         className="flex justify-between items-center gap-4 pb-4 cursor-pointer hover:bg-purple-100 transition-colors duration-300"
-        onClick={navigateToProfile}
+        onClick={handleProfileNavigation} // Handle click for navigation
       >
         <div className="flex items-center gap-4">
           <UserImage image={picturePath} size="60px" />

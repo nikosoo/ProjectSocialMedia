@@ -87,7 +87,7 @@ const Navbar = () => {
         className="font-bold text-2xl text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
         onClick={() => navigate("/home")}
       >
-        Sociopedia
+        Connectify
       </h1>
 
       {/* Search Input */}

@@ -49,15 +49,20 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, [isProfile, userId, token]); // Ensure effect re-runs on changes to isProfile, userId, or token
+  }, [isProfile, userId, token]);
 
-  if (!Array.isArray(posts)) {
-    return <div>Loading...</div>; // Render a loading state or an error message
+  // Sort posts by createdAt in descending order
+  const sortedPosts = [...posts].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
+  if (!Array.isArray(sortedPosts)) {
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="space-y-4">
-      {posts.map(
+      {sortedPosts.map(
         ({
           _id,
           userId,

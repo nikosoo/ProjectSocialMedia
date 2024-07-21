@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPost, removePost, addNotification } from "../../state";
 import Friend from "../../components/Friend";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { FaTrashAlt } from "react-icons/fa"; // Import trash bin icon
+import { FaTrashAlt } from "react-icons/fa";
+import { MdComment } from "react-icons/md"; // Import bubble icon
 import UserImage from "../../components/UserImage";
 
 const PostWidget = ({
@@ -157,20 +158,7 @@ const PostWidget = ({
           onClick={() => setIsComments(!isComments)}
           className="flex items-center space-x-1 focus:outline-none"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-gray-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-            />
-          </svg>
+          <MdComment size={24} className="text-gray-600" />
           <span className="text-gray-700 text-sm">{comments.length}</span>
         </button>
         {loggedInUserId === postUserId && (
@@ -190,9 +178,6 @@ const PostWidget = ({
               key={`${comment.userId}-${i}`}
               className="flex items-start mb-2 space-x-4"
             >
-              <div className="w-8 h-8 rounded-full bg-purple-300 flex items-center justify-center">
-                {/* User avatar placeholder */}
-              </div>
               <div className="flex-grow">
                 <p className="text-gray-700">
                   <strong>
