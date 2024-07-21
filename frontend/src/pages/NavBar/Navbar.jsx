@@ -132,7 +132,7 @@ const Navbar = () => {
 
         {/* Notifications Dropdown */}
         {isNotificationOpen && (
-          <div className="absolute right-0 mt-2 py-2 w-80 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
+          <div className="absolute right-0 mt-24 py-2 w-80 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
             {notifications.length === 0 ? (
               <p className="px-4 py-2 text-gray-700">No new notifications</p>
             ) : (
@@ -165,7 +165,7 @@ const Navbar = () => {
 
         {/* Dropdown Menu */}
         {isDropdownOpen && (
-          <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
+          <div className="absolute right-0 mt-24 py-2 w-48 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
             <button
               className="block w-full px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
               onClick={() => {

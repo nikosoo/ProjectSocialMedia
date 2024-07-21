@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPost, removePost, addNotification } from "../../state";
 import Friend from "../../components/Friend";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { FaTrashAlt } from "react-icons/fa"; // Import trash bin icon
+import UserImage from "../../components/UserImage";
 
 const PostWidget = ({
   postId,
@@ -174,9 +176,9 @@ const PostWidget = ({
         {loggedInUserId === postUserId && (
           <button
             onClick={handleDelete}
-            className="ml-2 px-3 py-1 bg-red-600 text-white rounded-lg"
+            className="ml-2 p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out"
           >
-            Delete
+            <FaTrashAlt size={16} />
           </button>
         )}
       </div>
@@ -186,25 +188,27 @@ const PostWidget = ({
           {comments.map((comment, i) => (
             <div
               key={`${comment.userId}-${i}`}
-              className="flex items-center space-x-2 mb-2"
+              className="flex items-start mb-2 space-x-4"
             >
               <div className="w-8 h-8 rounded-full bg-purple-300 flex items-center justify-center">
                 {/* User avatar placeholder */}
               </div>
-              <p className="text-gray-700">
-                <strong>
-                  {comment.firstName} {comment.lastName}:
-                </strong>{" "}
-                {comment.comment}
-              </p>
+              <div className="flex-grow">
+                <p className="text-gray-700">
+                  <strong>
+                    {comment.firstName} {comment.lastName}:
+                  </strong>{" "}
+                  {comment.comment}
+                </p>
+              </div>
               {comment.userId === loggedInUserId && (
                 <button
                   onClick={() =>
                     handleCommentDelete(comment.userId, comment.comment)
                   }
-                  className="ml-2 px-2 py-1 bg-red-600 text-white rounded-lg"
+                  className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out"
                 >
-                  Delete
+                  <FaTrashAlt size={14} />
                 </button>
               )}
             </div>

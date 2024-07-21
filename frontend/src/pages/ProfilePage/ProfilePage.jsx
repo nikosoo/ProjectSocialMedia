@@ -30,7 +30,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getUser();
-  }, []); // Run once on component mount
+  }, [userId]); // Dependency on userId
 
   if (!user) return null; // Render nothing until user data is fetched
 
