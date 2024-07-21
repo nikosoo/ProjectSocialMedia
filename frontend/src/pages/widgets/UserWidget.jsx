@@ -48,49 +48,49 @@ const UserWidget = ({ userId, picturePath }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="bg-purple-50 rounded-lg shadow-lg p-6">
       {/* FIRST ROW */}
       <div
-        className="flex justify-between items-center gap-2 pb-7 cursor-pointer"
+        className="flex justify-between items-center gap-4 pb-4 cursor-pointer hover:bg-purple-100 transition-colors duration-300"
         onClick={navigateToProfile}
       >
         <div className="flex items-center gap-4">
           <UserImage image={picturePath} size="60px" />
           <div>
-            <h4 className="text-lg font-medium">
+            <h4 className="text-xl font-semibold text-purple-800">
               {firstName} {lastName}
             </h4>
-            <p className="text-gray-600">{friends.length} friends</p>
+            <p className="text-purple-600">{friends.length} friends</p>
           </div>
         </div>
-        <FiArrowRight className="h-6 w-6 text-gray-600" />
+        <FiArrowRight className="h-6 w-6 text-purple-600" />
       </div>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-purple-200" />
 
       {/* SECOND ROW */}
       <div className="py-4">
         <div className="flex items-center gap-4 mb-2">
-          <FiMapPin className="h-6 w-6 text-gray-600" />
-          <p className="text-gray-600">{location}</p>
+          <FiMapPin className="h-6 w-6 text-purple-600" />
+          <p className="text-purple-700">{location}</p>
         </div>
         <div className="flex items-center gap-4">
-          <FiBriefcase className="h-6 w-6 text-gray-600" />
-          <p className="text-gray-600">{occupation}</p>
+          <FiBriefcase className="h-6 w-6 text-purple-600" />
+          <p className="text-purple-700">{occupation}</p>
         </div>
       </div>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-purple-200" />
 
       {/* THIRD ROW */}
       <div className="py-4">
         <div className="flex justify-between mb-2">
-          <p className="text-gray-600">Who's viewed your profile</p>
-          <p className="text-gray-900 font-medium">{viewedProfile}</p>
+          <p className="text-purple-600">Who's viewed your profile</p>
+          <p className="text-purple-900 font-semibold">{viewedProfile}</p>
         </div>
         <div className="flex justify-between">
-          <p className="text-gray-600">Impressions of your post</p>
-          <p className="text-gray-900 font-medium">{impressions}</p>
+          <p className="text-purple-600">Impressions of your post</p>
+          <p className="text-purple-900 font-semibold">{impressions}</p>
         </div>
       </div>
     </div>

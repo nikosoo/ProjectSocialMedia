@@ -37,7 +37,7 @@ const MyPostWidget = ({ picturePath }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
+    <div className="bg-white p-6 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-4 gap-2">
         <UserImage image={picturePath} size="60" />
 
@@ -46,12 +46,12 @@ const MyPostWidget = ({ picturePath }) => {
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}
           value={post}
-          className="w-full bg-gray-200 rounded-full px-4 py-2 outline-none"
+          className="w-full bg-purple-100 rounded-full px-4 py-2 outline-none focus:bg-purple-200 transition-colors"
         />
       </div>
 
       {isImage && (
-        <div className="border border-gray-300 rounded-lg p-4 mb-4">
+        <div className="border border-purple-300 rounded-lg p-4 mb-4">
           <Dropzone
             acceptedFiles=".jpg,.jpeg,.png"
             multiple={false}
@@ -60,7 +60,7 @@ const MyPostWidget = ({ picturePath }) => {
             {({ getRootProps, getInputProps }) => (
               <div
                 {...getRootProps()}
-                className="border-2 border-blue-500 p-4 w-full cursor-pointer hover:bg-gray-100"
+                className="border-2 border-purple-500 p-4 w-full cursor-pointer hover:bg-purple-100 transition-colors"
               >
                 <input {...getInputProps()} />
                 {!image ? (
@@ -92,7 +92,7 @@ const MyPostWidget = ({ picturePath }) => {
         </div>
       )}
 
-      <hr className="my-5" />
+      <hr className="my-5 border-purple-300" />
 
       <div className="flex justify-between items-center">
         <div
@@ -101,7 +101,7 @@ const MyPostWidget = ({ picturePath }) => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-gray-500"
+            className="h-6 w-6 text-purple-500"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -110,13 +110,15 @@ const MyPostWidget = ({ picturePath }) => {
               d="M16 18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2h2a2 2 0 0 1 2 2v10zM6 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
             />
           </svg>
-          <p className="text-gray-600 hover:text-gray-800">Image</p>
+          <p className="text-purple-600 hover:text-purple-800 transition-colors">
+            Image
+          </p>
         </div>
 
         <button
           onClick={handlePost}
           disabled={!post}
-          className="px-6 py-3 bg-blue-500 text-white rounded-full disabled:opacity-50"
+          className="px-6 py-3 bg-purple-500 text-white rounded-full disabled:opacity-50 hover:bg-purple-600 transition-colors"
         >
           POST
         </button>

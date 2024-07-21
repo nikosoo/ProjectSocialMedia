@@ -33,8 +33,8 @@ const FriendListWidget = ({ userId, isProfilePage }) => {
   }
 
   return (
-    <div className="p-4 border border-gray-200 rounded-md shadow-md">
-      <h2 className="text-neutral-dark text-xl font-medium mb-6">
+    <div className="p-4 bg-white border border-purple-200 rounded-lg shadow-lg">
+      <h2 className="text-purple-700 text-xl font-semibold mb-6">
         Friend List
       </h2>
       <div className="flex flex-col gap-6">

@@ -82,6 +82,7 @@ const PostWidget = ({
       );
     }
   };
+
   const handleCommentDelete = async (userId, comment) => {
     const response = await fetch(
       `http://localhost:3001/posts/${postId}/comment`,
@@ -122,7 +123,7 @@ const PostWidget = ({
   };
 
   return (
-    <div className="m-8 border border-gray-200 rounded-md p-4">
+    <div className="m-8 bg-purple-50 p-4 rounded-lg shadow-lg">
       <Friend
         friendId={postUserId}
         name={name}
@@ -130,25 +131,25 @@ const PostWidget = ({
         userPicturePath={userPicturePath}
         showButton={!isProfile}
       />
-      <p className="text-gray-800 mt-4">{description}</p>
+      <p className="text-gray-800 mt-4 text-lg">{description}</p>
       {picturePath && (
         <img
           className="mt-4 rounded-lg"
-          style={{ maxWidth: "100%", height: "auto", borderRadius: "0.75rem" }}
+          style={{ maxWidth: "100%", height: "auto" }}
           src={`http://localhost:3001/assets/${picturePath}`}
           alt="Post"
         />
       )}
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center mt-4">
         <div className="flex items-center space-x-2">
           <button onClick={patchLike} className="focus:outline-none">
             {isLiked ? (
-              <AiFillHeart color="#FF0000" size={24} />
+              <AiFillHeart color="#D53F8C" size={24} />
             ) : (
               <AiOutlineHeart size={24} />
             )}
           </button>
-          <span className="text-gray-700">{likeCount}</span>
+          <span className="text-gray-700 text-sm">{likeCount}</span>
         </div>
         <button
           onClick={() => setIsComments(!isComments)}
@@ -156,7 +157,7 @@ const PostWidget = ({
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-gray-500"
+            className="h-6 w-6 text-gray-600"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -168,12 +169,12 @@ const PostWidget = ({
               d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
             />
           </svg>
-          <span className="text-gray-700">{comments.length}</span>
+          <span className="text-gray-700 text-sm">{comments.length}</span>
         </button>
         {loggedInUserId === postUserId && (
           <button
             onClick={handleDelete}
-            className="ml-2 p-2 bg-red-500 text-white rounded-lg"
+            className="ml-2 px-3 py-1 bg-red-600 text-white rounded-lg"
           >
             Delete
           </button>
@@ -181,13 +182,15 @@ const PostWidget = ({
       </div>
 
       {isComments && (
-        <div className="mt-2">
+        <div className="mt-4">
           {comments.map((comment, i) => (
             <div
               key={`${comment.userId}-${i}`}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 mb-2"
             >
-              <div className="w-6 h-6 rounded-full bg-gray-200"></div>
+              <div className="w-8 h-8 rounded-full bg-purple-300 flex items-center justify-center">
+                {/* User avatar placeholder */}
+              </div>
               <p className="text-gray-700">
                 <strong>
                   {comment.firstName} {comment.lastName}:
@@ -199,24 +202,24 @@ const PostWidget = ({
                   onClick={() =>
                     handleCommentDelete(comment.userId, comment.comment)
                   }
-                  className="ml-2 p-2 bg-red-500 text-white rounded-lg"
+                  className="ml-2 px-2 py-1 bg-red-600 text-white rounded-lg"
                 >
                   Delete
                 </button>
               )}
             </div>
           ))}
-          <div className="mt-2 flex items-center space-x-2">
+          <div className="mt-4 flex items-center space-x-2">
             <input
               type="text"
-              className="border border-gray-300 rounded-lg p-2 flex-grow"
+              className="border border-gray-300 rounded-lg p-2 flex-grow focus:ring-2 focus:ring-purple-300"
               placeholder="Write a comment..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
             />
             <button
               onClick={handleCommentSubmit}
-              className="bg-blue-500 text-white p-2 rounded-lg"
+              className="bg-purple-500 text-white p-2 rounded-lg"
             >
               Post
             </button>

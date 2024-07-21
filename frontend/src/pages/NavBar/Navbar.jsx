@@ -81,10 +81,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-100 px-6 py-4 flex justify-between items-center">
+    <nav className="bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-6 py-4 flex justify-between items-center shadow-lg">
       {/* Logo */}
       <h1
-        className="font-bold text-2xl text-primary cursor-pointer"
+        className="font-bold text-2xl text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
         onClick={() => navigate("/home")}
       >
         Sociopedia
@@ -95,14 +95,14 @@ const Navbar = () => {
         <input
           type="text"
           placeholder="Search..."
-          className="bg-gray-200 rounded-lg py-2 px-4 w-56 sm:w-64 focus:outline-none"
+          className="bg-purple-200 rounded-lg py-2 px-4 w-56 sm:w-64 focus:outline-none focus:bg-purple-300 transition duration-300 ease-in-out"
           value={searchInput}
           onChange={handleSearchInputChange}
         />
 
         {/* Search Results Prompt */}
         {searchInput && searchResults.length > 0 && (
-          <div className="absolute left-0 mt-2 w-56 sm:w-64 bg-white rounded-lg shadow-lg z-10">
+          <div className="absolute left-0 mt-2 w-56 sm:w-64 bg-white rounded-lg shadow-lg z-10 overflow-hidden">
             {searchResults.map((result) => (
               <Friend
                 key={result._id}
@@ -121,16 +121,18 @@ const Navbar = () => {
       <div className="relative flex items-center" ref={dropdownRef}>
         {/* Notification Button */}
         <button
-          className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 focus:outline-none mr-4"
+          className="p-2 rounded-lg bg-purple-200 hover:bg-purple-300 focus:outline-none mr-4 transition duration-300 ease-in-out transform hover:scale-105"
           onClick={() => setIsNotificationOpen(!isNotificationOpen)}
           aria-expanded={isNotificationOpen}
         >
-          Notifications ({notifications.length})
+          <span className="text-white">
+            Notifications ({notifications.length})
+          </span>
         </button>
 
         {/* Notifications Dropdown */}
         {isNotificationOpen && (
-          <div className="absolute right-0 mt-2 py-2 w-80 bg-white rounded-lg shadow-lg z-10">
+          <div className="absolute right-0 mt-2 py-2 w-80 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
             {notifications.length === 0 ? (
               <p className="px-4 py-2 text-gray-700">No new notifications</p>
             ) : (
@@ -139,9 +141,7 @@ const Navbar = () => {
                   key={notification.id}
                   className="flex justify-between items-center px-4 py-2 hover:bg-gray-100"
                 >
-                  <p>
-                    {notification.message} {/* Only include message */}
-                  </p>
+                  <p>{notification.message}</p>
                   <button
                     onClick={() => handleRemoveNotification(notification.id)}
                     className="text-red-500"
@@ -156,16 +156,16 @@ const Navbar = () => {
 
         {/* User Info Dropdown */}
         <button
-          className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 focus:outline-none"
+          className="p-2 rounded-lg bg-purple-200 hover:bg-purple-300 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           aria-expanded={isDropdownOpen}
         >
-          {fullName}
+          <span className="text-white">{fullName}</span>
         </button>
 
         {/* Dropdown Menu */}
         {isDropdownOpen && (
-          <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-lg z-10">
+          <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
             <button
               className="block w-full px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
               onClick={() => {

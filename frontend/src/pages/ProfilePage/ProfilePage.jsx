@@ -35,18 +35,24 @@ const ProfilePage = () => {
   if (!user) return null; // Render nothing until user data is fetched
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-b from-purple-100 via-purple-200 to-purple-300">
       <Navbar />
       <div className="w-full p-8 flex flex-col lg:flex-row gap-8 justify-center">
-        <div className="lg:w-1/4">
-          <UserWidget userId={userId} picturePath={user.picturePath} />
-          <div className="my-8" />
-          <FriendListWidget userId={userId} isProfilePage={true} />{" "}
-          {/* Pass isProfilePage prop */}
+        <div className="lg:w-1/4 space-y-8">
+          {/* User Widget */}
+          <div className="bg-purple-50 shadow-lg rounded-lg p-6">
+            <UserWidget userId={userId} picturePath={user.picturePath} />
+          </div>
+          {/* Friend List Widget */}
+          <div className="bg-purple-50 shadow-lg rounded-lg p-6">
+            <FriendListWidget userId={userId} isProfilePage={true} />
+          </div>
         </div>
-        <div className="lg:w-2/5 mt-8 lg:mt-0">
-          <div className="my-8" />
-          <PostsWidget userId={userId} isProfile />
+        <div className="lg:w-2/5 mt-8 lg:mt-0 space-y-8">
+          {/* Posts Widget */}
+          <div className="bg-purple-50 shadow-lg rounded-lg p-6">
+            <PostsWidget userId={userId} isProfile />
+          </div>
         </div>
       </div>
     </div>
