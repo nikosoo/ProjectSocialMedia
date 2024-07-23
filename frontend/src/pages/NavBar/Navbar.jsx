@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLogout, removeNotification } from "../../state";
 import { useNavigate, useLocation } from "react-router-dom";
 import Friend from "../../components/Friend";
+import logo from "../../assets/data-element-connect-infographic-organization-graph-svgrepo-com.svg";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -82,7 +83,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-6 py-4 flex justify-between items-center shadow-lg">
-      {/* Logo */}
+      <img src={logo} alt="logo" className="w-20" />
       <h1
         className="font-bold text-2xl text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
         onClick={() => navigate("/home")}
