@@ -82,28 +82,31 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-6 py-4 flex justify-between items-center shadow-lg">
-      <img src={logo} alt="logo" className="w-20" />
-      <h1
-        className="font-bold text-2xl text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
-        onClick={() => navigate("/home")}
-      >
-        Connectify
-      </h1>
-
-      {/* Search Input */}
-      <div className="relative">
+    <nav className="bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center shadow-lg">
+      <div className="flex items-center">
+        <img
+          src={logo}
+          alt="logo"
+          className="w-12 h-12 sm:w-16 sm:h-16 object-contain mr-2 sm:mr-4"
+        />
+        <h1
+          className="font-bold text-xl sm:text-2xl text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105 hidden sm:block"
+          onClick={() => navigate("/home")}
+        >
+          Connectify
+        </h1>
+      </div>
+      <div className="relative flex-1 max-w-xs sm:max-w-md mx-4 sm:mx-8">
         <input
           type="text"
           placeholder="Search..."
-          className="bg-purple-200 rounded-lg py-2 px-4 w-56 sm:w-64 focus:outline-none focus:bg-purple-300 transition duration-300 ease-in-out"
+          className="bg-purple-200 rounded-lg py-2 px-4 w-full focus:outline-none focus:bg-purple-300 transition duration-300 ease-in-out"
           value={searchInput}
           onChange={handleSearchInputChange}
         />
 
-        {/* Search Results Prompt */}
         {searchInput && searchResults.length > 0 && (
-          <div className="absolute left-0 mt-2 w-56 sm:w-64 bg-white rounded-lg shadow-lg z-10 overflow-hidden">
+          <div className="absolute left-0 mt-2 w-full bg-white rounded-lg shadow-lg z-10 overflow-hidden">
             {searchResults.map((result) => (
               <Friend
                 key={result._id}
@@ -118,11 +121,9 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* User Info, Notification and Logout Dropdown */}
       <div className="relative flex items-center" ref={dropdownRef}>
-        {/* Notification Button */}
         <button
-          className="p-2 rounded-lg bg-purple-200 hover:bg-purple-300 focus:outline-none mr-4 transition duration-300 ease-in-out transform hover:scale-105"
+          className="p-2 rounded-lg bg-purple-200 hover:bg-purple-300 focus:outline-none mr-2 sm:mr-4 transition duration-300 ease-in-out transform hover:scale-105"
           onClick={() => setIsNotificationOpen(!isNotificationOpen)}
           aria-expanded={isNotificationOpen}
         >
@@ -131,9 +132,8 @@ const Navbar = () => {
           </span>
         </button>
 
-        {/* Notifications Dropdown */}
         {isNotificationOpen && (
-          <div className="absolute right-0 mt-24 py-2 w-80 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
+          <div className="absolute right-0 mt-12 sm:mt-16 py-2 w-64 sm:w-80 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
             {notifications.length === 0 ? (
               <p className="px-4 py-2 text-gray-700">No new notifications</p>
             ) : (
@@ -155,18 +155,16 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* User Info Dropdown */}
         <button
           className="p-2 rounded-lg bg-purple-200 hover:bg-purple-300 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           aria-expanded={isDropdownOpen}
         >
-          <span className="text-white">{fullName}</span>
+          <span className="text-white text-sm sm:text-base">{fullName}</span>
         </button>
 
-        {/* Dropdown Menu */}
         {isDropdownOpen && (
-          <div className="absolute right-0 mt-24 py-2 w-48 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
+          <div className="absolute right-0 mt-12 sm:mt-16 py-2 w-32 sm:w-48 bg-white rounded-lg shadow-lg z-10 overflow-hidden animate__animated animate__fadeIn">
             <button
               className="block w-full px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
               onClick={() => {
