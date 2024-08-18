@@ -22,7 +22,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, showButton }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/users/${_id}/${friendId}`,
+        `https://project-social-media-backend.vercel.app/users/${_id}/${friendId}`,
         {
           method: "PATCH",
           headers: {

@@ -10,10 +10,13 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   const getPosts = async () => {
     try {
-      const response = await fetch("http://localhost:3001/posts", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        "https://project-social-media-backend.vercel.app/posts",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch posts");
       }
@@ -27,7 +30,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const getUserPosts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/posts/${userId}/posts`,
+        `https://project-social-media-backend.vercel.app/posts/${userId}/posts`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },

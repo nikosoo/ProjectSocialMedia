@@ -31,14 +31,17 @@ const PostWidget = ({
   const likeCount = Object.keys(likes).length;
 
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: loggedInUserId }),
-    });
+    const response = await fetch(
+      `https://project-social-media-backend.vercel.app/posts/${postId}/like`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
 
@@ -58,7 +61,7 @@ const PostWidget = ({
 
   const handleCommentSubmit = async () => {
     const response = await fetch(
-      `http://localhost:3001/posts/${postId}/comment`,
+      `https://project-social-media-backend.vercel.app/posts/${postId}/comment`,
       {
         method: "PATCH",
         headers: {
@@ -88,7 +91,7 @@ const PostWidget = ({
 
   const handleCommentDelete = async (userId, comment) => {
     const response = await fetch(
-      `http://localhost:3001/posts/${postId}/comment`,
+      `https://project-social-media-backend.vercel.app/posts/${postId}/comment`,
       {
         method: "DELETE",
         headers: {
@@ -109,13 +112,16 @@ const PostWidget = ({
   };
 
   const handleDelete = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://project-social-media-backend.vercel.app/posts/${postId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.ok) {
       dispatch(removePost({ postId }));
@@ -139,7 +145,7 @@ const PostWidget = ({
         <img
           className="mt-4 rounded-lg"
           style={{ maxWidth: "100%", height: "auto" }}
-          src={`http://localhost:3001/assets/${picturePath}`}
+          src={`https://project-social-media-backend.vercel.app/assets/${picturePath}`}
           alt="Post"
         />
       )}

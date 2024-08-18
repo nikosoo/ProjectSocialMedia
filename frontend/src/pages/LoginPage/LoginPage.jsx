@@ -50,13 +50,16 @@ const Form = () => {
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       if (pageType === "login") {
-        const response = await fetch("http://localhost:3001/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
+        const response = await fetch(
+          "https://project-social-media-backend.vercel.app/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+          }
+        );
 
         const loggedIn = await response.json();
 
@@ -83,10 +86,13 @@ const Form = () => {
           }
         });
 
-        const response = await fetch("http://localhost:3001/auth/register", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          "https://project-social-media-backend.vercel.app/auth/register",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         const savedUser = await response.json();
 

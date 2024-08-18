@@ -11,7 +11,7 @@ const FriendListWidget = ({ userId, isProfilePage }) => {
   const getFriends = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/users/${userId}/friends`,
+        `https://project-social-media-backend.vercel.app/users/${userId}/friends`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
