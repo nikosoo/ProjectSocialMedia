@@ -38,16 +38,8 @@ const UserWidget = ({ userId }) => {
     return <p>Loading...</p>;
   }
 
-  const {
-    firstName,
-    lastName,
-    location,
-    occupation,
-    viewedProfile,
-    impressions,
-    friends,
-    picturePath,
-  } = user;
+  const { firstName, lastName, location, occupation, friends, picturePath } =
+    user;
 
   const handleProfileNavigation = () => {
     navigate(`/profile/${userId}`); // Navigate to the user's profile
@@ -87,18 +79,6 @@ const UserWidget = ({ userId }) => {
       </div>
 
       <hr className="my-4 border-purple-200" />
-
-      {/* THIRD ROW */}
-      <div className="py-4">
-        <div className="flex justify-between mb-2">
-          <p className="text-purple-600">Who's viewed your profile</p>
-          <p className="text-purple-900 font-semibold">{viewedProfile}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-purple-600">Impressions of your post</p>
-          <p className="text-purple-900 font-semibold">{impressions}</p>
-        </div>
-      </div>
     </div>
   );
 };
