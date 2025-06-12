@@ -10,11 +10,12 @@ export const register = async (req, res) => {
       lastName,
       email,
       password,
-      picturePath,
       friends,
       location,
       occupation,
     } = req.body;
+
+    const picturePath = req.file?.filename;
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -29,12 +30,15 @@ export const register = async (req, res) => {
       location,
       occupation,
     });
+
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (err) {
+    console.error("Register error:", err); // important for Vercel logs
     res.status(500).json({ error: err.message });
   }
 };
+
 
 /* LOGGING IN */
 export const login = async (req, res) => {
