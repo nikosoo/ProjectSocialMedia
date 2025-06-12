@@ -8,14 +8,20 @@ import { setLogin } from "../../state";
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("First Name is required"),
   lastName: yup.string().required("Last Name is required"),
-  email: yup.string().email("Invalid email format").required("Email is required"),
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
   password: yup.string().required("Password is required"),
   location: yup.string().required("Location is required"),
   occupation: yup.string().required("Occupation is required"),
 });
 
 const loginSchema = yup.object().shape({
-  email: yup.string().email("Invalid email format").required("Email is required"),
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
   password: yup.string().required("Password is required"),
 });
 
@@ -46,11 +52,14 @@ const Form = () => {
       setRegistrationError("");
 
       if (pageType === "login") {
-        const response = await fetch("https://project-social-media-backend.vercel.app/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        });
+        const response = await fetch(
+          "https://project-social-media-backend.vercel.app/auth/login",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(values),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -69,18 +78,23 @@ const Form = () => {
       }
 
       if (pageType === "register") {
-        const response = await fetch("https://project-social-media-backend.vercel.app/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        });
+        const response = await fetch(
+          "https://project-social-media-backend.vercel.app/auth/register",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(values),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();
           if (errorData.message?.toLowerCase().includes("email")) {
             setRegistrationError(errorData.message);
           } else {
-            setRegistrationError("Registration failed. Please try again.");
+            setRegistrationError(
+              "Registration failed. Please try again."
+            );
           }
           return;
         }
@@ -93,26 +107,42 @@ const Form = () => {
       }
     } catch (err) {
       console.error(err);
-      if (pageType === "login") setLoginError("Something went wrong. Please try again.");
-      if (pageType === "register") setRegistrationError("Something went wrong. Please try again.");
+      if (pageType === "login")
+        setLoginError("Something went wrong. Please try again.");
+      if (pageType === "register")
+        setRegistrationError("Something went wrong. Please try again.");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-600 p-4">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-white">Welcome to Connectify</h1>
-        <p className="text-xl text-white mt-2">Connect with people and share your experiences.</p>
+        <h1 className="text-4xl font-extrabold text-white tracking-wide">
+          Welcome to Connectify
+        </h1>
+        <p className="text-lg text-white mt-2">
+          Connect with people and share your experiences.
+        </p>
       </div>
 
-      <div className={`w-full ${pageType === "login" ? "max-w-md" : "max-w-3xl"} p-10 bg-white rounded-lg shadow-lg space-y-6`}>
-        <h2 className="text-2xl font-bold text-center text-purple-700">
-          {pageType === "login" ? "Login" : "Register"}
+      <div
+        className={
+          `w-full ${
+            pageType === "login" ? "max-w-md" : "max-w-3xl"
+          } p-8 bg-white rounded-2xl shadow-xl`
+        }
+      >
+        <h2 className="text-2xl font-bold text-center text-purple-700 mb-6">
+          {pageType === "login" ? "Login" : "Create Account"}
         </h2>
 
         <Formik
-          initialValues={pageType === "login" ? initialValuesLogin : initialValuesRegister}
-          validationSchema={pageType === "login" ? loginSchema : registerSchema}
+          initialValues={
+            pageType === "login" ? initialValuesLogin : initialValuesRegister
+          }
+          validationSchema={
+            pageType === "login" ? loginSchema : registerSchema
+          }
           onSubmit={handleFormSubmit}
         >
           {({
@@ -126,123 +156,93 @@ const Form = () => {
           }) => (
             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               {pageType === "register" && (
-                <>
-                  <div className="form-field">
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      name="firstName"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.firstName}
-                      className="input-field"
-                    />
-                    {touched.firstName && errors.firstName && <div className="text-red-500">{errors.firstName}</div>}
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      name="lastName"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.lastName}
-                      className="input-field"
-                    />
-                    {touched.lastName && errors.lastName && <div className="text-red-500">{errors.lastName}</div>}
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
-                    <input
-                      type="text"
-                      id="location"
-                      name="location"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.location}
-                      className="input-field"
-                    />
-                    {touched.location && errors.location && <div className="text-red-500">{errors.location}</div>}
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="occupation" className="block text-sm font-medium text-gray-700">Occupation</label>
-                    <input
-                      type="text"
-                      id="occupation"
-                      name="occupation"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.occupation}
-                      className="input-field"
-                    />
-                    {touched.occupation && errors.occupation && <div className="text-red-500">{errors.occupation}</div>}
-                  </div>
-                </>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[
+                    { label: "First Name", name: "firstName" },
+                    { label: "Last Name", name: "lastName" },
+                    { label: "Location", name: "location" },
+                    { label: "Occupation", name: "occupation" },
+                  ].map((field) => (
+                    <div key={field.name} className="flex flex-col">
+                      <label
+                        htmlFor={field.name}
+                        className="mb-1 text-sm font-medium text-gray-700"
+                      >
+                        {field.label}
+                      </label>
+                      <input
+                        type="text"
+                        id={field.name}
+                        name={field.name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values[field.name]}
+                        className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                      />
+                      {touched[field.name] && errors[field.name] && (
+                        <span className="text-red-500 text-sm mt-1">
+                          {errors[field.name]}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
 
-              <div className="form-field">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  className="input-field"
-                />
-                {touched.email && errors.email && <div className="text-red-500">{errors.email}</div>}
-              </div>
+              {[
+                { label: "Email", type: "email", name: "email" },
+                { label: "Password", type: "password", name: "password" },
+              ].map((field) => (
+                <div key={field.name} className="flex flex-col">
+                  <label
+                    htmlFor={field.name}
+                    className="mb-1 text-sm font-medium text-gray-700"
+                  >
+                    {field.label}
+                  </label>
+                  <input
+                    type={field.type}
+                    id={field.name}
+                    name={field.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values[field.name]}
+                    className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                  />
+                  {touched[field.name] && errors[field.name] && (
+                    <span className="text-red-500 text-sm mt-1">
+                      {errors[field.name]}
+                    </span>
+                  )}
+                </div>
+              ))}
 
-              <div className="form-field">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  className="input-field"
-                />
-                {touched.password && errors.password && <div className="text-red-500">{errors.password}</div>}
-              </div>
-
-              {/* Error display */}
-              {pageType === "register" && registrationError && (
-                <div className="text-center text-red-600 font-semibold">{registrationError}</div>
-              )}
-              {pageType === "login" && loginError && (
-                <div className="text-center text-red-600 font-semibold">{loginError}</div>
+              {(registrationError || loginError) && (
+                <div className="text-center text-red-600 font-semibold">
+                  {registrationError || loginError}
+                </div>
               )}
 
-              <div className="form-buttons flex flex-col items-center space-y-4">
-                <button
-                  type="submit"
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
-                >
-                  {pageType === "register" ? "REGISTER" : "LOGIN"}
-                </button>
+              <button
+                type="submit"
+                className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition transform hover:scale-105"
+              >
+                {pageType === "login" ? "LOGIN" : "REGISTER"}
+              </button>
 
-                <p
-                  onClick={() => {
-                    setPageType(pageType === "login" ? "register" : "login");
-                    resetForm();
-                    setLoginError("");
-                    setRegistrationError("");
-                  }}
-                  className="text-sm text-gray-600 cursor-pointer hover:text-purple-700 transition duration-300 ease-in-out"
-                >
-                  {pageType === "login"
-                    ? "Don't have an account? Sign Up here."
-                    : "Already have an account? Login here."}
-                </p>
-              </div>
+              <p
+                onClick={() => {
+                  setPageType(pageType === "login" ? "register" : "login");
+                  resetForm();
+                  setLoginError("");
+                  setRegistrationError("");
+                }}
+                className="mt-4 text-center text-sm text-gray-600 cursor-pointer hover:text-purple-700 transition"
+              >
+                {pageType === "login"
+                  ? "Don’t have an account? Sign up"
+                  : "Already have an account? Log in"}
+              </p>
             </form>
           )}
         </Formik>
