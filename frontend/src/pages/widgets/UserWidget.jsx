@@ -61,7 +61,6 @@ const UserWidget = ({ userId }) => {
         aria-label={`Go to profile of ${firstName} ${lastName}`}
       >
         <div className="flex items-center gap-4">
-          <UserImage image={picturePath} size="60px" />
           <div>
             <h4 className="text-xl font-semibold text-purple-800">
               {firstName} {lastName}
