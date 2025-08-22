@@ -2,7 +2,6 @@
 
 import express from "express";
 import {
-  createPost,
   getFeedPosts,
   getUserPosts,
   likePost,
@@ -11,10 +10,8 @@ import {
   deleteComment, // Import the deleteComment controller
 } from "../controllers/posts.js";
 import { verifyToken } from "../middleware/auth.js";
-import upload from "../middleware/upload.js";   // ⬅️ this was missing
 
 const router = express.Router();
-router.post("/", verifyToken, upload.single("picture"), createPost);
 
 /* READ */
 router.get("/", verifyToken, getFeedPosts);
