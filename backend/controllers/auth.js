@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 /* REGISTER USER */
+/* REGISTER USER */
 export const register = async (req, res) => {
   try {
     const {
@@ -23,6 +24,7 @@ export const register = async (req, res) => {
       lastName,
       email,
       password: passwordHash,
+      picturePath: req.file ? req.file.filename : "", // ✅ save uploaded picture
       friends,
       location,
       occupation,
@@ -31,7 +33,6 @@ export const register = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (err) {
-    console.error("Register error:", err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -41,16 +42,14 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
-    if (!user) return res.status(400).json({ msg: "User does not exist." });
+    if (!user) return res.status(400).json({ msg: "User does not exist. " });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
+    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    const userWithoutPassword = user.toObject();
-    delete userWithoutPassword.password;
-
-    res.status(200).json({ token, user: userWithoutPassword });
+    delete user.password;
+    res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

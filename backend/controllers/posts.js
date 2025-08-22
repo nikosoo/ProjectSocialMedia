@@ -6,15 +6,21 @@ export const createPost = async (req, res) => {
   try {
     const { userId, description } = req.body;
     const user = await User.findById(userId);
+
+    const picturePath = req.file ? req.file.filename : null;
+
     const newPost = new Post({
       userId,
       firstName: user.firstName,
       lastName: user.lastName,
       location: user.location,
       description,
+      userPicturePath: user.picturePath,
+      picturePath,
       likes: {},
       comments: [],
     });
+
     await newPost.save();
 
     const post = await Post.find();
@@ -23,6 +29,7 @@ export const createPost = async (req, res) => {
     res.status(409).json({ message: err.message });
   }
 };
+
 
 /* READ */
 export const getFeedPosts = async (req, res) => {
@@ -93,7 +100,6 @@ export const addComment = async (req, res) => {
   }
 };
 
-/* DELETE POST */
 export const deletePost = async (req, res) => {
   try {
     const { id } = req.params;
