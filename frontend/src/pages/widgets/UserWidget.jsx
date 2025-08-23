@@ -12,7 +12,7 @@ const UserWidget = ({ userId }) => {
   const getUser = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/users/${userId}`,
+        `https://project-social-media-backend.vercel.app/users/${userId}`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },

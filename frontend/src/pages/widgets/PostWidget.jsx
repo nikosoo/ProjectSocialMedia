@@ -22,7 +22,7 @@ const PostWidget = ({ post, isProfile }) => {
 
   /* LIKE POST */
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:3000/posts/${post._id}/like`, {
+    const response = await fetch(`https://project-social-media-backend.vercel.app/posts/${post._id}/like`, {
       method: "PATCH",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify({ userId: loggedInUserId }),
@@ -47,7 +47,7 @@ const PostWidget = ({ post, isProfile }) => {
   /* ADD COMMENT */
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
-    const response = await fetch(`http://localhost:3000/posts/${post._id}/comment`, {
+    const response = await fetch(`https://project-social-media-backend.vercel.app/posts/${post._id}/comment`, {
       method: "PATCH",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify({ userId: loggedInUserId, comment: newComment }),
@@ -59,7 +59,7 @@ const PostWidget = ({ post, isProfile }) => {
 
   /* DELETE COMMENT */
   const handleCommentDelete = async (userId, comment) => {
-    const response = await fetch(`http://localhost:3000/posts/${post._id}/comment`, {
+    const response = await fetch(`https://project-social-media-backend.vercel.app/posts/${post._id}/comment`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify({ userId, comment }),
@@ -73,7 +73,7 @@ const PostWidget = ({ post, isProfile }) => {
 
   /* DELETE POST */
   const handleDelete = async () => {
-    const response = await fetch(`http://localhost:3000/posts/${post._id}`, {
+    const response = await fetch(`https://project-social-media-backend.vercel.app/posts/${post._id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
     });

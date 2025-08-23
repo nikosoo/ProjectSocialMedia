@@ -23,7 +23,7 @@ const MyPostWidget = () => {
       formData.append("picture", image);
     }
 
-    const response = await fetch("http://localhost:3000/posts", {
+    const response = await fetch("https://project-social-media-backend.vercel.app/posts", {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,

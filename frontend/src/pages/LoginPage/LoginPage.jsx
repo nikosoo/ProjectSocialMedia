@@ -58,7 +58,7 @@ const Form = () => {
       setRegistrationError("");
 
       if (pageType === "login") {
-        const response = await fetch("http://localhost:3000/auth/login", {
+        const response = await fetch("https://project-social-media-backend.vercel.app/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(values),
@@ -90,7 +90,7 @@ const Form = () => {
     }
   });
 
-  const response = await fetch("http://localhost:3000/auth/register", {
+  const response = await fetch("https://project-social-media-backend.vercel.app/auth/register", {
     method: "POST",
     body: formData,
   });
