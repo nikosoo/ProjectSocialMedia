@@ -1,23 +1,11 @@
 import multer from "multer";
-import path from "path";
-import fs from "fs";
 
-// Ensure uploads directory exists
-const uploadDir = "public/assets";
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+// Use memory storage (file won't be saved to disk)
+const storage = multer.memoryStorage();
 
-// Configure multer storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/assets"); // save to public/assets
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // unique filename
-  },
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB max
 });
-
-const upload = multer({ storage });
 
 export default upload;

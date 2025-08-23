@@ -1,4 +1,4 @@
-const UserImage = ({ image, size }) => {
+const UserImage = ({ userId, size }) => {
   return (
     <div>
       <img
@@ -6,7 +6,7 @@ const UserImage = ({ image, size }) => {
         width={size}
         height={size}
         alt="user"
-        src={`https://project-social-media-backend.vercel.app/assets/${image}`}
+        src={`http://localhost:3000/users/${userId}/picture`}
       />
     </div>
   );

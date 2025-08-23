@@ -46,7 +46,7 @@ const Navbar = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          "https://project-social-media-backend.vercel.app/users",
+          "http://localhost:3000/users",
           {
             method: "GET",
             headers: {

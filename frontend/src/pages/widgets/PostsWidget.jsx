@@ -5,85 +5,54 @@ import PostWidget from "./PostWidget";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts) || [];
+  const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
     try {
-      const response = await fetch(
-        "https://project-social-media-backend.vercel.app/posts",
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      if (!response.ok) throw new Error("Failed to fetch posts");
+      const response = await fetch("http://localhost:3000/posts", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await response.json();
-      dispatch(setPosts({ posts: data }));
+      dispatch(setPosts({ posts: Array.isArray(data) ? data : [] }));
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      console.error(error);
     }
   };
 
   const getUserPosts = async () => {
     try {
-      const response = await fetch(
-        `https://project-social-media-backend.vercel.app/posts/${userId}/posts`,
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      if (!response.ok) throw new Error("Failed to fetch user posts");
+      const response = await fetch(`http://localhost:3000/posts/${userId}/posts`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await response.json();
-      dispatch(setPosts({ posts: data }));
+      dispatch(setPosts({ posts: Array.isArray(data) ? data : [] }));
     } catch (error) {
-      console.error("Error fetching user posts:", error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
-    if (isProfile) {
-      getUserPosts();
-    } else {
-      getPosts();
-    }
+    if (isProfile) getUserPosts();
+    else getPosts();
   }, [isProfile, userId, token]);
 
-  // Sort posts by createdAt in descending order
+  if (!Array.isArray(posts)) return <p>Loading posts...</p>;
+
   const sortedPosts = [...posts].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
-  if (!Array.isArray(sortedPosts)) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="space-y-4">
-      {sortedPosts.map(
-        ({
-          _id,
-          userId,
-          firstName,
-          lastName,
-          description,
-          location,
-          likes,
-          comments,
-        }) => (
-          <PostWidget
-            key={_id}
-            postId={_id}
-            postUserId={userId}
-            name={`${firstName} ${lastName}`}
-            description={description}
-            location={location}
-            likes={likes}
-            comments={comments}
-            isProfile={isProfile}
-          />
-        )
+      {sortedPosts.length === 0 ? (
+        <p>No posts available.</p>
+      ) : (
+        sortedPosts.map((post) => (
+          <PostWidget key={post._id} post={post} isProfile={isProfile} />
+        ))
       )}
     </div>
   );

@@ -16,6 +16,7 @@ export const getUserFriends = async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
 
+    // Filter duplicates in user.friends array
     const uniqueFriendIds = [...new Set(user.friends)];
 
     const friends = await Promise.all(
@@ -23,11 +24,10 @@ export const getUserFriends = async (req, res) => {
     );
 
     const formattedFriends = friends.map(
-      ({ _id, firstName, lastName, occupation, location }) => {
-        return { _id, firstName, lastName, occupation, location };
+      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath };
       }
     );
-
     res.status(200).json(formattedFriends);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -42,16 +42,16 @@ export const addRemoveFriend = async (req, res) => {
     const friend = await User.findById(friendId);
 
     if (user.friends.includes(friendId)) {
-      user.friends = user.friends.filter((fid) => fid !== friendId);
-      friend.friends = friend.friends.filter((fid) => fid !== id);
+      user.friends = user.friends.filter((id) => id !== friendId);
+      friend.friends = friend.friends.filter((id) => id !== id);
     } else {
       user.friends.push(friendId);
       friend.friends.push(id);
     }
-
     await user.save();
     await friend.save();
 
+    // Filter duplicates in user.friends array
     const uniqueFriendIds = [...new Set(user.friends)];
 
     const friends = await Promise.all(
@@ -59,8 +59,8 @@ export const addRemoveFriend = async (req, res) => {
     );
 
     const formattedFriends = friends.map(
-      ({ _id, firstName, lastName, occupation, location }) => {
-        return { _id, firstName, lastName, occupation, location };
+      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath };
       }
     );
 
@@ -69,7 +69,6 @@ export const addRemoveFriend = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
-
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
